@@ -1,7 +1,5 @@
 package io.github.machineswillrise.websocketrat.server;
 
-import io.javalin.Javalin;
-
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
@@ -11,6 +9,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 import io.github.machineswillrise.websocketrat.server.database.MigrationRunner;
 import io.github.machineswillrise.websocketrat.server.service.AdminService;
+import io.javalin.Javalin;
 
 public class WebSocketRatServer
 {
@@ -36,7 +35,7 @@ public class WebSocketRatServer
 		var adminService = new AdminService(dslContext);
 		migrationRunner.runAllMigrations();
 
-		Javalin app = Javalin.create(config ->
+		Javalin.create(config ->
 		{
 			config.routes.get("/admin/set-creds", ctx ->
 			{
