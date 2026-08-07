@@ -47,8 +47,10 @@ public class AdminService
 	{
 		if (username == null || password == null)
 			throw new IllegalArgumentException("Username and password are required");
+
 		if (username.length() > 32 || username.length() < 8 || password.length() > 32 || password.length() < 8)
 			throw new IllegalArgumentException("Username and password lengths must be between 8 and 32 characters");
+
 		if (!canSetCredentials())
 			throw new IllegalArgumentException("The admin account is already set up.");
 
