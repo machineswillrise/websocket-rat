@@ -34,6 +34,7 @@ public class WebSocketRatServer
 				.nullable(false)
 				.defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMP))
 			)
+			.column("first_run", SQLDataType.BOOLEAN)
 			.constraints(
 				DSL.constraint("single_user_check").check(DSL.field("id", SQLDataType.INTEGER).eq(1))
 			)
