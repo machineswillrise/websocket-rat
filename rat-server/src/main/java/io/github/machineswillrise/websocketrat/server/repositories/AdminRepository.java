@@ -1,4 +1,4 @@
-package io.github.machineswillrise.websocketrat.server.repository;
+package io.github.machineswillrise.websocketrat.server.repositories;
 
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;

@@ -1,9 +1,9 @@
-package io.github.machineswillrise.websocketrat.server.service;
+package io.github.machineswillrise.websocketrat.server.services;
 
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 
-import io.github.machineswillrise.websocketrat.server.repository.AdminRepository;
+import io.github.machineswillrise.websocketrat.server.repositories.AdminRepository;
 
 public class AdminService
 {

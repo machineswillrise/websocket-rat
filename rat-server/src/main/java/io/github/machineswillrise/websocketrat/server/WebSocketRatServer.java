@@ -9,10 +9,10 @@ import com.zaxxer.hikari.HikariDataSource;
 
 import io.javalin.Javalin;
 
-import io.github.machineswillrise.websocketrat.server.controller.AdminController;
+import io.github.machineswillrise.websocketrat.server.controllers.AdminController;
 import io.github.machineswillrise.websocketrat.server.database.MigrationRunner;
-import io.github.machineswillrise.websocketrat.server.repository.AdminRepository;
-import io.github.machineswillrise.websocketrat.server.service.AdminService;
+import io.github.machineswillrise.websocketrat.server.repositories.AdminRepository;
+import io.github.machineswillrise.websocketrat.server.services.AdminService;
 
 public class WebSocketRatServer
 {

@@ -1,8 +1,8 @@
-package io.github.machineswillrise.websocketrat.server.controller;
+package io.github.machineswillrise.websocketrat.server.controllers;
 
 import io.javalin.http.Context;
 
-import io.github.machineswillrise.websocketrat.server.service.AdminService;
+import io.github.machineswillrise.websocketrat.server.services.AdminService;
 
 public class AdminController
 {
