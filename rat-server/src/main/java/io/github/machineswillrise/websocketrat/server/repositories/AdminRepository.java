@@ -3,6 +3,8 @@ package io.github.machineswillrise.websocketrat.server.repositories;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 
+import io.github.machineswillrise.websocketrat.server.dto.AdminCredentials;
+
 public class AdminRepository
 {
 	private final DSLContext dsl;
@@ -42,5 +44,16 @@ public class AdminRepository
 			.set(DSL.field("first_run"), false)
 			.where(DSL.field("id").eq(1))
 			.execute();
+	}
+
+	public AdminCredentials findCredentials()
+	{
+		return dsl.select(DSL.field("username", String.class), DSL.field("password_hash", String.class))
+			.from("admin")
+			.where(DSL.field("id").eq(1))
+			.fetchOne(record -> new AdminCredentials(
+				record.get(0, String.class),
+				record.get(1, String.class)
+			));
 	}
 }

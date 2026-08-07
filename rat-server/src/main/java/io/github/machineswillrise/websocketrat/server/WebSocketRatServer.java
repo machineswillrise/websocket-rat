@@ -44,6 +44,7 @@ public class WebSocketRatServer
 		Javalin.create(config ->
 		{
 			config.routes.post("/admin/set-creds", adminController::setCredentials);
+			config.routes.post("/admin/login", adminController::login);
 		}).start(8080);
 	}
 }

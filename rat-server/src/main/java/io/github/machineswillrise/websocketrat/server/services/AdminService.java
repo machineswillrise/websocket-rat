@@ -3,6 +3,7 @@ package io.github.machineswillrise.websocketrat.server.services;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 
+import io.github.machineswillrise.websocketrat.server.dto.AdminCredentials;
 import io.github.machineswillrise.websocketrat.server.repositories.AdminRepository;
 
 public class AdminService
@@ -42,5 +43,14 @@ public class AdminService
 		String hash = argon2.hash(ITERATIONS, MEMORY, PARALLELISM, password.toCharArray());
 
 		adminRepository.updateCredentials(username, hash);
+	}
+
+	public boolean verifyCredentials(String username, String password)
+	{
+		AdminCredentials credentials = adminRepository.findCredentials();
+		if (credentials == null || !credentials.username().equals(username))
+			return false;
+
+		return argon2.verify(credentials.passwordHash(), password.toCharArray());
 	}
 }
