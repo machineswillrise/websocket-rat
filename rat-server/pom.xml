@@ -27,6 +27,18 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.jooq</groupId>
+			<artifactId>jooq</artifactId>
+			<version>3.21.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>7.1.0</version>
+		</dependency>
+
+		<dependency>
 			<groupId>gg.jte</groupId>
 			<artifactId>jte</artifactId>
 			<version>3.2.4</version>
@@ -94,7 +106,7 @@
 					</execution>
 				</executions>
 				<configuration>
-						<mainClass>${rat-server.mainClass}</mainClass>
+					<mainClass>${rat-server.mainClass}</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
