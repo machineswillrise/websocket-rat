@@ -2,7 +2,6 @@ package io.github.machineswillrise.websocketrat.server.services;
 
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
-
 import io.github.machineswillrise.websocketrat.server.dto.AdminCredentials;
 import io.github.machineswillrise.websocketrat.server.repositories.AdminRepository;
 

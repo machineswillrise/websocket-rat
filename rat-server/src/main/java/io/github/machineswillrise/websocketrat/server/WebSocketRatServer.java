@@ -7,12 +7,11 @@ import org.jooq.impl.DSL;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-import io.javalin.Javalin;
-
 import io.github.machineswillrise.websocketrat.server.controllers.AdminController;
 import io.github.machineswillrise.websocketrat.server.database.MigrationRunner;
 import io.github.machineswillrise.websocketrat.server.repositories.AdminRepository;
 import io.github.machineswillrise.websocketrat.server.services.AdminService;
+import io.javalin.Javalin;
 
 public class WebSocketRatServer
 {
@@ -45,6 +44,7 @@ public class WebSocketRatServer
 		{
 			config.routes.post("/admin/set-creds", adminController::setCredentials);
 			config.routes.post("/admin/login", adminController::login);
+			config.routes.get("/admin/logout", ctx -> ctx.req().getSession().invalidate());
 		}).start(8080);
 	}
 }
