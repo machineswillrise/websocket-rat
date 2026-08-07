@@ -18,6 +18,12 @@ public class AdminController
 		String username = ctx.queryParam("username");
 		String password = ctx.queryParam("password");
 
+		if (username == null || password == null)
+		{
+			ctx.status(400);
+			return;
+		}
+
 		try
 		{
 			adminService.setCredentials(username, password);
