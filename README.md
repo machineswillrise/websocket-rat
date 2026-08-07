@@ -4,11 +4,15 @@ WebSocket RAT is a highly secure Remote Access Trojan based on Java 21 and Javal
 
 ### Compiling a module
 ```
-./mvnw clean compile -pl <module_name>
+./mvnw clean package -pl <module_name>
 ```
 (If you're on Windows, use `./mvnw.cmd`.)
 
-If you run `mvn clean package` on a module, it'll generate a GraalVM Native Image that you can use too, which uses less resources and doesn't require a host JRE. That makes it harder for it to be detected and reduces the friction required to run it.
+This will create a normal JAR, a fat JAR, and a GraalVM Native Image executable, which is the most lightweight.
+
+### Run server with Docker
+If you have Docker on your computer, you can run the server with `sudo docker build -t rat-server .` after you've packaged it with Maven.
+
 ### Contributing
 I welcome contributions to this repository. I suggest forking the repository, cloning it, making your changes, pushing it, and opening a pull request on the main repo.
 
