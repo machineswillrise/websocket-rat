@@ -12,9 +12,6 @@ import io.github.machineswillrise.websocketrat.server.service.AdminService;
 
 public class WebSocketRatServer
 {
-	private MigrationRunner runner;
-	private AdminService adminService;
-
 	public DSLContext createDSLContext(String url)
 	{
 		var config = new HikariConfig();
@@ -31,6 +28,10 @@ public class WebSocketRatServer
 	{
 		var server = new WebSocketRatServer();
 		var dslContext = server.createDSLContext("jdbc:sqlite:" + System.getProperty("user.home") + "/" + "rat.db");
+
+		// create the services and db schema
+		var migrationRunner = new MigrationRunner(dslContext);
 		var adminService = new AdminService(dslContext);
+		migrationRunner.runAllMigrations();
 	}
 }
