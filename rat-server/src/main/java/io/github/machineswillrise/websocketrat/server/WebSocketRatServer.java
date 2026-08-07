@@ -43,7 +43,7 @@ public class WebSocketRatServer
 		Javalin.create(config ->
 		{
 			config.routes.post("/admin/set-creds", adminController::setCredentials);
-			config.routes.post("/admin/login", adminController::login);
+			config.routes.get("/admin/login", adminController::login);
 			config.routes.get("/admin/logout", ctx -> ctx.req().getSession().invalidate());
 		}).start(8080);
 	}

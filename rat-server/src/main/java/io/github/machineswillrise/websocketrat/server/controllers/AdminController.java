@@ -1,10 +1,9 @@
 package io.github.machineswillrise.websocketrat.server.controllers;
 
-import io.javalin.http.Context;
-
 import io.github.machineswillrise.websocketrat.server.dto.AuthRequest;
 import io.github.machineswillrise.websocketrat.server.dto.LoginResponse;
 import io.github.machineswillrise.websocketrat.server.services.AdminService;
+import io.javalin.http.Context;
 
 public class AdminController
 {
@@ -55,6 +54,6 @@ public class AdminController
 
 		ctx.sessionAttribute("admin_logged_in", true);
 		ctx.status(200);
-		ctx.json(new LoginResponse(true));
+		ctx.redirect("/dashboard");
 	}
 }
