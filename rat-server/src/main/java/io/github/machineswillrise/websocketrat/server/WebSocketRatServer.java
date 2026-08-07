@@ -37,7 +37,7 @@ public class WebSocketRatServer
 
 		Javalin.create(config ->
 		{
-			config.routes.get("/admin/set-creds", ctx ->
+			config.routes.post("/admin/set-creds", ctx ->
 			{
 				String username = ctx.queryParam("username");
 				String password = ctx.queryParam("password");
