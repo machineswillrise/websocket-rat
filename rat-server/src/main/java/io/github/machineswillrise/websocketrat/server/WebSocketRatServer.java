@@ -7,7 +7,9 @@ import org.jooq.impl.DSL;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+import io.github.machineswillrise.websocketrat.server.controller.AdminController;
 import io.github.machineswillrise.websocketrat.server.database.MigrationRunner;
+import io.github.machineswillrise.websocketrat.server.repository.AdminRepository;
 import io.github.machineswillrise.websocketrat.server.service.AdminService;
 import io.javalin.Javalin;
 
@@ -30,29 +32,17 @@ public class WebSocketRatServer
 		var server = new WebSocketRatServer();
 		var dslContext = server.createDSLContext("jdbc:sqlite:" + System.getProperty("user.home") + "/" + "rat.db");
 
-		// create the services and db schema
+		// create the services, repositories and db schema
 		var migrationRunner = new MigrationRunner(dslContext);
-		var adminService = new AdminService(dslContext);
+		var adminRepository = new AdminRepository(dslContext);
+		var adminService = new AdminService(adminRepository);
+		var adminController = new AdminController(adminService);
+
 		migrationRunner.runAllMigrations();
 
 		Javalin.create(config ->
 		{
-			config.routes.post("/admin/set-creds", ctx ->
-			{
-				String username = ctx.queryParam("username");
-				String password = ctx.queryParam("password");
-
-				try
-				{
-					adminService.setCredentials(username, password);
-				}
-				catch (IllegalArgumentException e)
-				{
-					ctx.status(400);
-				}
-
-				ctx.status(200);
-			});
+			config.routes.post("/admin/set-creds", adminController::setCredentials);
 		}).start(8080);
 	}
 }
