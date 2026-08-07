@@ -3,16 +3,19 @@ package io.github.machineswillrise.websocketrat.server;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
-import org.jooq.impl.SQLDataType;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+import io.github.machineswillrise.websocketrat.server.database.MigrationRunner;
+import io.github.machineswillrise.websocketrat.server.service.AdminService;
+
 public class WebSocketRatServer
 {
-	private final DSLContext dsl;
+	private MigrationRunner runner;
+	private AdminService adminService;
 
-	public WebSocketRatServer(String url)
+	public DSLContext createDSLContext(String url)
 	{
 		var config = new HikariConfig();
 		config.setDriverClassName("org.sqlite.JDBC");
@@ -21,28 +24,13 @@ public class WebSocketRatServer
 		config.setConnectionTestQuery("SELECT 1");
 
 		var dataSource = new HikariDataSource(config);
-		dsl = DSL.using(dataSource, SQLDialect.SQLITE);
-	}
-
-	private void createTables() {
-		dsl.createTableIfNotExists("admin")
-			.column("id", SQLDataType.INTEGER.notNull())
-			.column("username", SQLDataType.VARCHAR(50))
-			.column("password_hash", SQLDataType.VARCHAR(255))
-			.column("updated_at", SQLDataType.TIMESTAMP
-				.nullable(false)
-				.defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMP))
-			)
-			.column("first_run", SQLDataType.BOOLEAN.defaultValue(true))
-			.constraints(
-				DSL.constraint("single_user_check").check(DSL.field("id", SQLDataType.INTEGER).eq(1))
-			)
-			.execute();
+		return DSL.using(dataSource, SQLDialect.SQLITE);
 	}
 
 	public static void main(String[] args)
 	{
-		var server = new WebSocketRatServer("jdbc:sqlite:" + System.getProperty("user.home") + "/" + "rat.db");
-		server.createTables();
+		var server = new WebSocketRatServer();
+		var dslContext = server.createDSLContext("jdbc:sqlite:" + System.getProperty("user.home") + "/" + "rat.db");
+		var adminService = new AdminService(dslContext);
 	}
 }
