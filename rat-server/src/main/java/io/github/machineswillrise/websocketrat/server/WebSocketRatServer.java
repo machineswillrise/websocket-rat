@@ -1,5 +1,7 @@
 package io.github.machineswillrise.websocketrat.server;
 
+import io.javalin.Javalin;
+
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
@@ -33,5 +35,25 @@ public class WebSocketRatServer
 		var migrationRunner = new MigrationRunner(dslContext);
 		var adminService = new AdminService(dslContext);
 		migrationRunner.runAllMigrations();
+
+		Javalin app = Javalin.create(config ->
+		{
+			config.routes.get("/admin/set-creds", ctx ->
+			{
+				String username = ctx.queryParam("username");
+				String password = ctx.queryParam("password");
+
+				try
+				{
+					adminService.setCredentials(username, password);
+				}
+				catch (IllegalArgumentException e)
+				{
+					ctx.status(400);
+				}
+
+				ctx.status(200);
+			});
+		}).start(8080);
 	}
 }
