@@ -2,7 +2,6 @@ package io.github.machineswillrise.websocketrat.server;
 
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
-
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 
@@ -11,7 +10,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 public class WebSocketRatServer
 {
-	private DSLContext dsl;
+	private final DSLContext dsl;
 
 	public WebSocketRatServer(String url)
 	{
