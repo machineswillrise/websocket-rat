@@ -7,11 +7,12 @@ import org.jooq.impl.DSL;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+import io.javalin.Javalin;
+
 import io.github.machineswillrise.websocketrat.server.controller.AdminController;
 import io.github.machineswillrise.websocketrat.server.database.MigrationRunner;
 import io.github.machineswillrise.websocketrat.server.repository.AdminRepository;
 import io.github.machineswillrise.websocketrat.server.service.AdminService;
-import io.javalin.Javalin;
 
 public class WebSocketRatServer
 {
