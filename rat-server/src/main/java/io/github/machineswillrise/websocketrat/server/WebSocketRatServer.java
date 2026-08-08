@@ -7,17 +7,14 @@ import org.jooq.impl.DSL;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-import io.github.machineswillrise.websocketrat.server.controllers.AdminController;
 import io.github.machineswillrise.websocketrat.server.database.MigrationRunner;
-import io.github.machineswillrise.websocketrat.server.repositories.AdminRepository;
-import io.github.machineswillrise.websocketrat.server.services.AdminService;
 import io.javalin.Javalin;
 
 public class WebSocketRatServer
 {
-	public DSLContext createDSLContext(String url)
+	private DSLContext setUpDSL(String url)
 	{
-		var config = new HikariConfig();
+		HikariConfig config = new HikariConfig();
 		config.setDriverClassName("org.sqlite.JDBC");
 		config.setJdbcUrl(url);
 		config.setMaximumPoolSize(5);
@@ -27,18 +24,20 @@ public class WebSocketRatServer
 		return DSL.using(dataSource, SQLDialect.SQLITE);
 	}
 
+
 	public static void main(String[] args)
 	{
+		// connect to database
 		var server = new WebSocketRatServer();
-		var dslContext = server.createDSLContext("jdbc:sqlite:" + System.getProperty("user.home") + "/" + "rat.db");
+		var dsl = server.setUpDSL("jdbc:sqlite:" + System.getProperty("user.home") + "/" + "rat.db");
 
-		// create the services, repositories and db schema
-		var migrationRunner = new MigrationRunner(dslContext);
-		var adminRepository = new AdminRepository(dslContext);
-		var adminService = new AdminService(adminRepository);
-		var adminController = new AdminController(adminService);
-
+		// run database migrations
+		var migrationRunner = new MigrationRunner(dsl);
 		migrationRunner.runAllMigrations();
+
+		// load controllers
+		DIContainer container = new DIContainer(dsl);
+		var adminController = container.adminController;
 
 		Javalin.create(config ->
 		{
