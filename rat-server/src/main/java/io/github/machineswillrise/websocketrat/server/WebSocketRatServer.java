@@ -24,23 +24,21 @@ public class WebSocketRatServer
 		return DSL.using(dataSource, SQLDialect.SQLITE);
 	}
 
-
 	public static void main(String[] args)
 	{
-		// connect to database
+		// Connect to the database
 		var server = new WebSocketRatServer();
 		var dsl = server.setUpDSL("jdbc:sqlite:" + System.getProperty("user.home") + "/" + "rat.db");
 
-		// run database migrations
+		// Run database migrations
 		var migrationRunner = new MigrationRunner(dsl);
 		migrationRunner.runAllMigrations();
 
-		// load controllers
+		// Load controllers
 		DIContainer container = new DIContainer(dsl);
 		var adminController = container.adminController;
 
-		Javalin.create(config ->
-		{
+		Javalin.create(config -> {
 			config.routes.post("/admin/set-creds", adminController::setCredentials);
 			config.routes.get("/admin/login", adminController::login);
 			config.routes.get("/admin/logout", ctx -> ctx.req().getSession().invalidate());
