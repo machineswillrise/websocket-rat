@@ -39,8 +39,8 @@ public class WebSocketRatServer
 		var adminController = container.adminController;
 
 		Javalin.create(config -> {
-			config.routes.post("/admin/set-creds", adminController::setCredentials);
-			config.routes.get("/admin/login", adminController::login);
+			config.routes.post("/admin/set-creds", ctx -> adminController.setCredentials(ctx));
+			config.routes.get("/admin/login", ctx -> adminController.login(ctx));
 			config.routes.get("/admin/logout", ctx -> ctx.req().getSession().invalidate());
 		}).start(8080);
 	}
