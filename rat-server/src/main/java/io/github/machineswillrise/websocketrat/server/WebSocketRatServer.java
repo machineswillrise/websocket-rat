@@ -7,8 +7,9 @@ import org.jooq.impl.DSL;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-import io.github.machineswillrise.websocketrat.server.database.MigrationRunner;
 import io.javalin.Javalin;
+
+import io.github.machineswillrise.websocketrat.server.database.MigrationRunner;
 
 public class WebSocketRatServer
 {
@@ -39,8 +40,8 @@ public class WebSocketRatServer
 		var adminController = container.adminController;
 
 		Javalin.create(config -> {
-			config.routes.post("/admin/set-creds", ctx -> adminController.setCredentials(ctx));
-			config.routes.get("/admin/login", ctx -> adminController.login(ctx));
+			config.routes.post("/admin/set-creds", adminController::setCredentials);
+			config.routes.get("/admin/login", adminController::login);
 			config.routes.get("/admin/logout", ctx -> ctx.req().getSession().invalidate());
 		}).start(8080);
 	}

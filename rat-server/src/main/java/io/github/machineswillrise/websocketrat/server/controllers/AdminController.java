@@ -1,9 +1,10 @@
 package io.github.machineswillrise.websocketrat.server.controllers;
 
+import io.javalin.http.Context;
+
 import io.github.machineswillrise.websocketrat.server.dto.AuthRequest;
 import io.github.machineswillrise.websocketrat.server.dto.LoginResponse;
 import io.github.machineswillrise.websocketrat.server.services.AdminService;
-import io.javalin.http.Context;
 
 public class AdminController
 {
@@ -20,7 +21,7 @@ public class AdminController
 
 		try
 		{
-			adminService.setCredentials(request.username(), request.password());
+			adminService.setCredentials(request.username(), request.password().toCharArray());
 		}
 		catch (IllegalArgumentException e)
 		{
@@ -45,7 +46,7 @@ public class AdminController
 			return;
 		}
 
-		if (!adminService.verifyCredentials(request.username(), request.password()))
+		if (!adminService.verifyCredentials(request.username(), request.password().toCharArray()))
 		{
 			ctx.status(401);
 			ctx.json(new LoginResponse(false));
