@@ -28,7 +28,9 @@ public class AdminService
 	public void setCredentials(String username, char[] password)
 	{
 		if (!canSetCredentials())
+		{
 			throw new IllegalArgumentException("The admin account is already set up.");
+		}
 
 		adminRepository.updateCredentials(username, argon2Service.hash(password));
 	}
@@ -36,8 +38,11 @@ public class AdminService
 	public boolean verifyCredentials(String username, char[] password)
 	{
 		AdminCredentials credentials = adminRepository.findCredentials();
+
 		if (credentials == null || !credentials.username().equals(username))
+		{
 			return false;
+		}
 
 		return argon2Service.verify(credentials.passwordHash(), password);
 	}
