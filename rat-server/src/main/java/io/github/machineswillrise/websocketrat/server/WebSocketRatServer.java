@@ -31,7 +31,7 @@ public class WebSocketRatServer
 
 	private Config loadConfig()
 	{
-		var configFile = getClass().getResourceAsStream("config.properties");
+		var configFile = getClass().getResourceAsStream("/config.properties");
 		ConfigParser parser = new ConfigParser(configFile);
 		return parser.parse();
 	}
@@ -48,6 +48,7 @@ public class WebSocketRatServer
 		// Run database migrations
 		Flyway flyway = Flyway.configure()
 			.dataSource(databaseLocation, null, null)
+			.baselineOnMigrate(true)
 			.locations("classpath:migrations")
 			.load();
 

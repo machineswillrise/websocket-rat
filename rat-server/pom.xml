@@ -4,7 +4,7 @@
 	<artifactId>rat-server</artifactId>
 	<parent>
 		<groupId>io.github.machineswillrise</groupId>
-		<artifactId>websocket-rat</artifactId>
+		<artifactId>websocketrat</artifactId>
 		<version>1.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
@@ -71,6 +71,8 @@
 				<artifactId>flyway-maven-plugin</artifactId>
 				<version>13.2.0</version>
 				<configuration>
+					<url>jdbc:sqlite:${user.home}/rat.db</url>
+					<baselineOnMigrate>true</baselineOnMigrate>
 					<locations>
 						<location>classpath:migrations/</location>
 					</locations>

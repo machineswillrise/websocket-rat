@@ -4,7 +4,7 @@
 	<artifactId>rat-common</artifactId>
 	<parent>
 		<groupId>io.github.machineswillrise</groupId>
-		<artifactId>websocket-rat</artifactId>
+		<artifactId>websocketrat</artifactId>
 		<version>1.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
