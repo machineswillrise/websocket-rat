@@ -7,11 +7,10 @@ import org.jooq.impl.DSL;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-import io.github.machineswillrise.websocketrat.server.database.MigrationRunner;
 import io.javalin.Javalin;
-import static io.javalin.apibuilder.ApiBuilder.get;
-import static io.javalin.apibuilder.ApiBuilder.path;
-import static io.javalin.apibuilder.ApiBuilder.post;
+import static io.javalin.apibuilder.ApiBuilder.*;
+
+import io.github.machineswillrise.websocketrat.server.database.MigrationRunner;
 
 public class WebSocketRatServer
 {
