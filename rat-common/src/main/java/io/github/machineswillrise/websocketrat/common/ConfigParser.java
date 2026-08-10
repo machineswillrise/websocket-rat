@@ -3,12 +3,11 @@ package io.github.machineswillrise.websocketrat.common;
 import java.io.InputStream;
 import java.io.IOException;
 
-import java.util.LinkedHashMap;
 import java.util.Properties;
 
 public class ConfigParser
 {
-	private Properties props;
+	private final Properties props;
 
 	public ConfigParser(InputStream stream)
 	{
@@ -24,13 +23,11 @@ public class ConfigParser
 		}
 	}
 
-	public LinkedHashMap<String, String> parse()
+	public Config parse()
 	{
-		var map = new LinkedHashMap<String, String>();
-		for (String key : props.stringPropertyNames()) {
-			map.put(key, props.getProperty(key));
-		}
-
-		return map;
+		return new Config(
+			props.getProperty("ip"),
+			Integer.parseInt(props.getProperty("port"))
+		);
 	}
 }

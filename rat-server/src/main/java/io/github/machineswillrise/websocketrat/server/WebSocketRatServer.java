@@ -10,6 +10,9 @@ import com.zaxxer.hikari.HikariDataSource;
 import io.javalin.Javalin;
 import static io.javalin.apibuilder.ApiBuilder.*;
 
+import io.github.machineswillrise.websocketrat.common.Config;
+import io.github.machineswillrise.websocketrat.common.ConfigParser;
+
 import io.github.machineswillrise.websocketrat.server.database.MigrationRunner;
 
 public class WebSocketRatServer
@@ -26,6 +29,13 @@ public class WebSocketRatServer
 		return DSL.using(dataSource, SQLDialect.SQLITE);
 	}
 
+	private Config loadConfig()
+	{
+		var configFile = getClass().getResourceAsStream("config.properties");
+		ConfigParser parser = new ConfigParser(configFile);
+		return parser.parse();
+	}
+
 	public static void main(String[] args)
 	{
 		// Connect to the database
@@ -40,14 +50,17 @@ public class WebSocketRatServer
 		DIContainer container = new DIContainer(dsl);
 		var adminController = container.adminController;
 
-		Javalin.create(config -> {
-			config.routes.apiBuilder(() -> {
+		// Load config
+		Config config = server.loadConfig();
+
+		Javalin.create(javalinConfig -> {
+			javalinConfig.routes.apiBuilder(() -> {
 				path("/admin", () -> {
 					path("/set-creds", () -> post(adminController::setCredentials));
 					path("/login", () -> get(adminController::login));
 					path("/logout", () -> get(ctx -> ctx.req().getSession().invalidate()));
 				});
 			});
-		}).start(8080);
+		}).start(config.port());
 	}
 }

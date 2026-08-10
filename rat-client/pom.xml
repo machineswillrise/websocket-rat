@@ -13,6 +13,14 @@
 		<rat-client.mainClass>io.github.machineswillrise.websocketrat.client.WebSocketRatClient</rat-client.mainClass>
 	</properties>
 
+	<dependencies>
+		<dependency>
+			<groupId>io.github.machineswillrise</groupId>
+			<artifactId>rat-common</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>

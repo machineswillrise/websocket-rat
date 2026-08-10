@@ -2,12 +2,10 @@ package io.github.machineswillrise.websocketrat.common;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.LinkedHashMap;
-
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 public class ConfigParserTest
 {
@@ -17,17 +15,15 @@ public class ConfigParserTest
 	{
 		String config =
 		"""
-		foo = 123
-		bar = 456
+		ip = 9.9.9.9
+		port = 1234
 		""";
+
+		Config expectedResult = new Config("9.9.9.9", 1234);
 
 		var stream = new ByteArrayInputStream(config.getBytes(StandardCharsets.UTF_8));
 		var parser = new ConfigParser(stream);
 
-		var expectedOutput = new LinkedHashMap<String, String>();
-		expectedOutput.put("foo", "123");
-		expectedOutput.put("bar", "456");
-
-		assertEquals(expectedOutput, parser.parse());
+		assertEquals(expectedResult, parser.parse());
 	}
 }
