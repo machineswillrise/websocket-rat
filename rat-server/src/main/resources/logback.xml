@@ -1,7 +1,13 @@
 <configuration>
 	<property name="SUFFIX_PATTERN" value="%d{YYYY-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
 
-	<appender name="syslog" class="ch.qos.logback.classic.net.SyslogAppender">
+	<appender name="CLI" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${SUFFIX_PATTERN}</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="SYSLOG" class="ch.qos.logback.classic.net.SyslogAppender">
 		<syslogHost>localhost</syslogHost>
 		<port>514</port>
 		<facility>USER</facility>
@@ -10,6 +16,7 @@
 	</appender>
 
 	<root level="INFO">
-		<appender-ref ref="syslog"/>
+		<appender-ref ref="SYSLOG"/>
+		<appender-ref ref="CLI"/>
 	</root>
 </configuration>
