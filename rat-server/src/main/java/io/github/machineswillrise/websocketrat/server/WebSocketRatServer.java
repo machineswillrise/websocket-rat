@@ -48,7 +48,6 @@ public class WebSocketRatServer
 		// Run database migrations
 		Flyway flyway = Flyway.configure()
 			.dataSource(databaseLocation, null, null)
-			.baselineOnMigrate(true)
 			.locations("classpath:migrations")
 			.load();
 
