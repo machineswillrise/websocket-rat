@@ -169,6 +169,7 @@
 			</plugin>
 		</plugins>
 
+		<!-- Get VSCodium to shut up -->
 		<pluginManagement>
 			<plugins>
 				<plugin>
