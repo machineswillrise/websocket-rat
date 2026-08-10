@@ -6,6 +6,10 @@ WebSocket RAT is a highly secure Remote Access Trojan based on Java 21 and Javal
 This project is not intended for malicious uses. Please do not commit any illegal crimes with WebSocket-RAT.
 Also, this project is INCOMPLETE and not ready to be used in a production state yet.
     
+### Upcoming Features
+- SSL
+- Packing with ProGuard
+
 ### Compiling a module
 ```
 ./mvnw clean package -pl <module_name>
