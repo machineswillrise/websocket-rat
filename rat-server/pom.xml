@@ -11,6 +11,7 @@
 
 	<properties>
 		<rat-server.mainClass>io.github.machineswillrise.websocketrat.server.WebSocketRatServer</rat-server.mainClass>
+		<flyway.version>13.2.0</flyway.version>
 	</properties>
 
 	<dependencies>
@@ -45,20 +46,65 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>13.2.0</version>
+		</dependency>
+
+		<dependency>
 			<groupId>de.mkammerer</groupId>
 			<artifactId>argon2-jvm</artifactId>
 			<version>2.12</version>
 		</dependency>
 
-        <dependency>
-            <groupId>io.github.machineswillrise</groupId>
-            <artifactId>rat-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
+		<dependency>
+			<groupId>io.github.machineswillrise</groupId>
+			<artifactId>rat-common</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
     </dependencies>
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>13.2.0</version>
+				<configuration>
+					<locations>
+						<location>classpath:migrations/</location>
+					</locations>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>migrate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>gg.jte</groupId>
+				<artifactId>jte-maven-plugin</artifactId>
+				<version>3.2.4</version>
+				<configuration>
+					<sourceDirectory>${project.basedir}/src/main.jte</sourceDirectory>
+					<targetDirectory>${project.build.directory}/generated-sources/jte</targetDirectory>
+					<contentType>html</contentType>
+				</configuration>
+				<executions>
+					<execution>
+						<id>precompile-templates</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>precompile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
@@ -121,26 +167,6 @@
 					<mainClass>${rat-server.mainClass}</mainClass>
 				</configuration>
 			</plugin>
-
-			<plugin>
-				<groupId>gg.jte</groupId>
-				<artifactId>jte-maven-plugin</artifactId>
-				<version>3.2.4</version>
-				<configuration>
-					<sourceDirectory>${project.basedir}/src/main.jte</sourceDirectory>
-					<targetDirectory>${project.build.directory}/generated-sources/jte</targetDirectory>
-					<contentType>html</contentType>
-				</configuration>
-				<executions>
-					<execution>
-						<id>precompile-templates</id>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>precompile</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 
 		<pluginManagement>
@@ -159,6 +185,19 @@
 										<versionRange>[3.2.4,)</versionRange>
 										<goals>
 											<goal>precompile</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.flywaydb</groupId>
+										<artifactId>flyway-maven-plugin</artifactId>
+										<versionRange>[13.2.0,)</versionRange>
+										<goals>
+											<goal>migrate</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>
