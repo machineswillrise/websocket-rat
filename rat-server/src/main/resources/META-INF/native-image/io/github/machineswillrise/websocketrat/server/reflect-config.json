@@ -5,6 +5,10 @@
 			{
 				"name": "isAllowPoolSuspension",
 				"parameterTypes": []
+			},
+			{
+				"name": "isAutoCommit",
+				"parameterTypes": []
 			}
 		]
 	}

@@ -10,12 +10,12 @@ This project is not intended for malicious uses. Please do not commit any illega
 2. `emacs config.properties` (or whatever editor you like)
 
 ### Compiling a module
-```
-./mvnw clean package -pl :<module_name> -am
+
+./mvnw clean compile -pl :<module_name> -am
 ```
 (If you're on Windows, use `./mvnw.cmd`.)
 
-This will create a normal JAR, a fat JAR, and a GraalVM Native Image executable, which will be the most lightweight.
+You can also use `mvn clean package` which will make a GraalVM Native Image too.
 
 ### Start server directly
 `./mvnw clean compile -pl :rat-server -am exec:java`
