@@ -4,13 +4,10 @@ WebSocket RAT is a highly secure Remote Access Trojan based on Java 21 and Javal
 
 ### Warning
 This project is not intended for malicious uses. Please do not commit any illegal crimes with WebSocket-RAT.
-Also, this project is INCOMPLETE and not ready to be used in a production state yet.
-    
-### Upcoming Features
-- TLS reverse proxy with Caddy and Docker-Compose
-- ProGuard obfuscation and packing
-- Systemd auto restart in container
-- NTFY Logback appender in server container for severe errors
+
+### Changing configuration
+1.`cp config.properties.example config.properties`
+2. `emacs config.properties` (or whatever editor you like)
 
 ### Compiling a module
 ```
@@ -22,6 +19,12 @@ This will create a normal JAR, a fat JAR, and a GraalVM Native Image executable,
 
 ### Run server with Docker
 If you have Docker on your computer, you can run the server with `sudo docker build -t rat-server .` after you've packaged it with Maven.
+
+### Upcoming Features
+- TLS reverse proxy with Caddy and Docker-Compose
+- ProGuard obfuscation and packing
+- Systemd auto restart in container
+- NTFY Logback appender in server container for severe errors
 
 ### Contributing
 I welcome contributions to this repository. I suggest forking the repository, cloning it, making your changes, pushing it, and opening a pull request on the main repo.

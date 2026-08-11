@@ -1,8 +1,7 @@
 package io.github.machineswillrise.websocketrat.common;
 
-import java.io.InputStream;
 import java.io.IOException;
-
+import java.io.InputStream;
 import java.util.Properties;
 
 public class ConfigParser
@@ -26,8 +25,8 @@ public class ConfigParser
 	public Config parse()
 	{
 		return new Config(
-			props.getProperty("ip"),
-			Integer.parseInt(props.getProperty("port"))
+			props.getProperty("common.ip"),
+			Integer.parseInt(props.getProperty("common.port"))
 		);
 	}
 }

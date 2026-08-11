@@ -3,3 +3,4 @@
 .mvn/
 target/
 webtransport-rat.iml
+config.properties
