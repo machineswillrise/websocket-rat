@@ -22,6 +22,7 @@ public class AdminController
 	public void setCredentials(Context ctx)
 	{
 		AuthRequest request = ctx.bodyAsClass(AuthRequest.class);
+
 		Admin admin = adminRepository.readFirst();
 
 		if (admin == null)

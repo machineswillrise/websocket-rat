@@ -13,9 +13,10 @@ This project is not intended for malicious uses. Please do not commit any illega
 ```
 ./mvnw clean compile -pl :<module_name> -am
 ```
-(If you're on Windows, use `./mvnw.cmd`.)
 
-You can also use `mvn clean package` which will make a GraalVM Native Image too.
+(If you're on Windows, use `./mvnw.cmd` instead.)
+
+You can also use `./mvnw clean package` which will make a GraalVM Native Image too.
 
 ### Start server directly
 `./mvnw clean compile -pl :rat-server -am exec:java`

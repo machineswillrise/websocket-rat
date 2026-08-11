@@ -1,15 +1,20 @@
 package io.github.machineswillrise.websocketrat.server;
 
-import org.flywaydb.core.Flyway;
-import org.jooq.DSLContext;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DSL;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import io.javalin.Javalin;
+import io.javalin.http.TooManyRequestsResponse;
+import io.javalin.plugin.bundled.RateLimitPlugin;
 import static io.javalin.apibuilder.ApiBuilder.*;
+
+import org.flywaydb.core.Flyway;
+import org.jooq.DSLContext;
+import org.jooq.SQLDialect;
+import org.jooq.impl.DSL;
 
 import io.github.machineswillrise.websocketrat.common.Config;
 import io.github.machineswillrise.websocketrat.common.ConfigParser;
@@ -58,9 +63,29 @@ public class WebSocketRatServer
 		// Load config
 		Config config = server.loadConfig();
 
-		Javalin.create(javalinConfig -> {
-			javalinConfig.routes.apiBuilder(() -> {
-				path("/admin", () -> {
+		Javalin.create(javalinConfig ->
+		{
+			javalinConfig.registerPlugin(new RateLimitPlugin());
+
+			javalinConfig.routes.before(ctx ->
+				ctx.with(RateLimitPlugin.class).requestPerTimeUnit(60, TimeUnit.MINUTES));
+
+			javalinConfig.routes.exception(TooManyRequestsResponse.class, (e, ctx) ->
+			{
+				ctx.status(429);
+				ctx.json(Map.of("error", "Too Many Requests", "code", "TOO_MANY_REQUESTS"));
+			});
+
+			javalinConfig.routes.exception(Exception.class, (e, ctx) ->
+			{
+				ctx.status(500);
+				ctx.json(Map.of("error", "Internal Server Error", "code", "INTERNAL_SERVER_ERROR"));
+			});
+
+			javalinConfig.routes.apiBuilder(() ->
+			{
+				path("/admin", () ->
+				{
 					path("/set-creds", () -> post(adminController::setCredentials));
 					path("/login", () -> get(adminController::login));
 					path("/logout", () -> get(ctx -> ctx.req().getSession().invalidate()));
