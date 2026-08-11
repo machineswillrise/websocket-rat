@@ -20,6 +20,12 @@ This will create a normal JAR, a fat JAR, and a GraalVM Native Image executable,
 ### Start server directly
 `./mvnw clean compile -pl :rat-server -am exec:java`
 
+### Notice
+This project is NOT finished yet. Things that need to be implemented include:
+- Web UI
+- WebSocket Endpoints
+- Client features
+
 ### Upcoming Features
 - TLS reverse proxy with Caddy and Docker-Compose
 - ProGuard obfuscation and packing
