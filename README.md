@@ -17,8 +17,8 @@ This project is not intended for malicious uses. Please do not commit any illega
 
 This will create a normal JAR, a fat JAR, and a GraalVM Native Image executable, which will be the most lightweight.
 
-### Run server with Docker
-If you have Docker on your computer, you can run the server with `sudo docker build -t rat-server .` after you've packaged it with Maven.
+### Start server directly
+`./mvnw clean compile -pl :rat-server -am exec:java`
 
 ### Upcoming Features
 - TLS reverse proxy with Caddy and Docker-Compose
