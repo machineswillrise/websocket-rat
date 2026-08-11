@@ -7,8 +7,10 @@ This project is not intended for malicious uses. Please do not commit any illega
 Also, this project is INCOMPLETE and not ready to be used in a production state yet.
     
 ### Upcoming Features
-- SSL
-- Packing with ProGuard
+- TLS reverse proxy with Caddy and Docker-Compose
+- ProGuard obfuscation and packing
+- Systemd auto restart in container
+- NTFY Logback appender in server container for severe errors
 
 ### Compiling a module
 ```
