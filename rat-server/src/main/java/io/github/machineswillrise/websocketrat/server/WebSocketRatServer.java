@@ -87,7 +87,7 @@ public class WebSocketRatServer
 				path("/admin", () ->
 				{
 					path("/set-creds", () -> post(adminController::setCredentials));
-					path("/login", () -> get(adminController::login));
+					path("/login", () -> post(adminController::login));
 					path("/logout", () -> get(ctx -> ctx.req().getSession().invalidate()));
 				});
 			});

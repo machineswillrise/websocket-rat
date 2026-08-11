@@ -2,7 +2,6 @@ package io.github.machineswillrise.websocketrat.server.controllers;
 
 import io.javalin.http.Context;
 
-import io.github.machineswillrise.websocketrat.server.dto.AuthRequest;
 import io.github.machineswillrise.websocketrat.server.dto.LoginResponse;
 import io.github.machineswillrise.websocketrat.server.models.Admin;
 import io.github.machineswillrise.websocketrat.server.repositories.AdminRepository;
@@ -19,9 +18,11 @@ public class AdminController
 		this.argon2Service = argon2Service;
 	}
 
+	// formParamAsClass will throw an exception if the parameter is missing
 	public void setCredentials(Context ctx)
 	{
-		AuthRequest request = ctx.bodyAsClass(AuthRequest.class);
+		String username = ctx.formParamAsClass("username", String.class).get();
+		String password = ctx.formParamAsClass("password", String.class).get();
 
 		Admin admin = adminRepository.readFirst();
 
@@ -36,8 +37,8 @@ public class AdminController
 			return;
 		}
 
-		String passwordHash = argon2Service.hash(request.password().toCharArray());
-		Admin updated = new Admin(admin.id(), request.username(), passwordHash, admin.updatedAt(), false);
+		String passwordHash = argon2Service.hash(password.toCharArray());
+		Admin updated = new Admin(admin.id(), username, passwordHash, admin.updatedAt(), false);
 		adminRepository.update(admin, updated);
 
 		ctx.status(200);
@@ -45,28 +46,19 @@ public class AdminController
 
 	public void login(Context ctx)
 	{
-		AuthRequest request;
-
-		try
-		{
-			request = ctx.bodyAsClass(AuthRequest.class);
-		}
-		catch (NullPointerException e)
-		{
-			ctx.status(400);
-			return;
-		}
+		String username = ctx.formParamAsClass("username", String.class).get();
+		String password = ctx.formParamAsClass("password", String.class).get();
 
 		Admin admin = adminRepository.readFirst();
 
-		if (admin == null || !admin.username().equals(request.username()))
+		if (admin == null || !admin.username().equals(username))
 		{
 			ctx.status(401);
 			ctx.json(new LoginResponse(false));
 			return;
 		}
 
-		if (!argon2Service.verify(admin.passwordHash(), request.password().toCharArray()))
+		if (!argon2Service.verify(admin.passwordHash(), password.toCharArray()))
 		{
 			ctx.status(401);
 			ctx.json(new LoginResponse(false));
