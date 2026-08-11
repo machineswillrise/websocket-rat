@@ -70,6 +70,7 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<configuration>
+					<skip>false</skip>
 					<mainClass>${rat-server.mainClass}</mainClass>
 				</configuration>
 			</plugin>
@@ -127,6 +128,11 @@
 				<configuration>
 					<mainClass>${rat-server.mainClass}</mainClass>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
 			</plugin>
 
 			<plugin>
