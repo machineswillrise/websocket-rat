@@ -11,7 +11,7 @@ This project is not intended for malicious uses. Please do not commit any illega
 
 ### Compiling a module
 ```
-./mvnw clean package -pl :<module_name> -am`
+./mvnw clean package -pl :<module_name> -am
 ```
 (If you're on Windows, use `./mvnw.cmd`.)
 
