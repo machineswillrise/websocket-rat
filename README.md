@@ -6,7 +6,7 @@ WebSocket RAT is a highly secure Remote Administration Tool with persistence sup
 This project is not intended for malicious uses. Please do not commit any illegal crimes with WebSocket-RAT.
 
 ### Changing configuration
-1.`cp config.properties.example config.properties`
+1. `cp config.properties.example config.properties`
 2. `emacs config.properties` (or whatever editor you like)
 
 ### Compiling a module
