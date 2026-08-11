@@ -1,7 +1,6 @@
 package io.github.machineswillrise.websocketrat.server;
 
 import org.flywaydb.core.Flyway;
-
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
@@ -31,8 +30,7 @@ public class WebSocketRatServer
 
 	private Config loadConfig()
 	{
-		var configFile = getClass().getResourceAsStream("/config.properties");
-		ConfigParser parser = new ConfigParser(configFile);
+		ConfigParser parser = new ConfigParser(getClass().getResourceAsStream("/config.properties"));
 		return parser.parse();
 	}
 

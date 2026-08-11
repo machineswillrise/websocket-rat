@@ -1,0 +1,11 @@
+[
+	{
+		"name": "com.zaxxer.hikari.HikariConfig",
+		"methods": [
+			{
+				"name": "isAllowPoolSuspension",
+				"parameterTypes": []
+			}
+		]
+	}
+]
