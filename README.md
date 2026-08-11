@@ -1,6 +1,6 @@
 ## WebSocket RAT
 
-WebSocket RAT is a highly secure Remote Access Trojan based on Java 21 and Javalin structured as a multi-module Maven project. It can remotely control both Linux and Windows computers and has persistence support.
+WebSocket RAT is a highly secure Remote Administration Tool based on Java 21 and Javalin structured as a multi-module Maven project. It can remotely control both Linux and Windows computers and has persistence support.
 
 ### Warning
 This project is not intended for malicious uses. Please do not commit any illegal crimes with WebSocket-RAT.
@@ -25,6 +25,9 @@ This will create a normal JAR, a fat JAR, and a GraalVM Native Image executable,
 - ProGuard obfuscation and packing
 - Systemd auto restart in container
 - NTFY Logback appender in server container for severe errors
+
+### License
+While I usually prefer Unlicense, this repository uses MIT due to potential abuse by malicious actors.
 
 ### Contributing
 I welcome contributions to this repository. I suggest forking the repository, cloning it, making your changes, pushing it, and opening a pull request on the main repo.
