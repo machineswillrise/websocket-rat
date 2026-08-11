@@ -9,6 +9,10 @@
 			{
 				"name": "isAutoCommit",
 				"parameterTypes": []
+			},
+			{
+				"name": "getCatalog",
+				"parameterTypes": []
 			}
 		]
 	}
