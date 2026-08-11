@@ -14,11 +14,11 @@ Also, this project is INCOMPLETE and not ready to be used in a production state 
 
 ### Compiling a module
 ```
-./mvnw clean package -pl <module_name>
+./mvnw clean package -pl :<module_name> -am`
 ```
 (If you're on Windows, use `./mvnw.cmd`.)
 
-This will create a normal JAR, a fat JAR, and a GraalVM Native Image executable, which is the most lightweight.
+This will create a normal JAR, a fat JAR, and a GraalVM Native Image executable, which will be the most lightweight.
 
 ### Run server with Docker
 If you have Docker on your computer, you can run the server with `sudo docker build -t rat-server .` after you've packaged it with Maven.
