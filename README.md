@@ -1,6 +1,6 @@
 ## WebSocket RAT
 
-WebSocket RAT is a highly secure Remote Administration Tool based on Java 21 and Javalin structured as a multi-module Maven project. It can remotely control both Linux and Windows computers and has persistence support.
+WebSocket RAT is a highly secure Remote Administration Tool with persistence support that can remotely control both Linux and Windows computers.
 
 ### Warning
 This project is not intended for malicious uses. Please do not commit any illegal crimes with WebSocket-RAT.
