@@ -1,11 +1,13 @@
 package io.github.machineswillrise.websocketrat.server.repositories;
 
+import java.util.List;
+
 import org.jooq.DSLContext;
-import org.jooq.impl.DSL;
 
-import io.github.machineswillrise.websocketrat.server.dto.AdminCredentials;
+import static io.github.machineswillrise.websocketrat.server.db.Tables.ADMIN;
+import io.github.machineswillrise.websocketrat.server.models.Admin;
 
-public class AdminRepository
+public class AdminRepository implements Repository<Admin>
 {
 	private final DSLContext dsl;
 
@@ -14,46 +16,47 @@ public class AdminRepository
 		this.dsl = dsl;
 	}
 
-	public boolean isEmpty()
+	@Override
+	public int count()
 	{
-		return dsl.fetchCount(dsl.selectFrom("admin")) == 0;
+		return dsl.fetchCount(ADMIN);
 	}
 
-	public boolean isFirstRun()
+	@Override
+	public List<Admin> readAll()
 	{
-		Boolean isFirstRun = dsl.select(DSL.field("first_run", Boolean.class))
-			.from("admin")
-			.where(DSL.field("id").eq(1))
-			.fetchOne(0, Boolean.class);
-		return isFirstRun != null && isFirstRun;
+		return dsl.fetch(ADMIN).map(record -> new Admin(
+			record.getId(),
+			record.getUsername(),
+			record.getPasswordHash(),
+			record.getUpdatedAt(),
+			record.getAlreadyRun()
+		));
+	}
+
+	public Admin readFirst()
+	{
+		return readAll().stream().findFirst().orElse(null);
+	}
+
+	@Override
+	public void update(Admin oldRow, Admin newRow)
+	{
+		dsl.update(ADMIN)
+			.set(ADMIN.USERNAME, newRow.username())
+			.set(ADMIN.PASSWORD_HASH, newRow.passwordHash())
+			.set(ADMIN.ALREADY_RUN, newRow.alreadyRun())
+			.where(ADMIN.ID.eq(oldRow.id()))
+			.execute();
 	}
 
 	public void createFirstRunPlaceholder()
 	{
-		dsl.insertInto(DSL.table("admin"))
-			.columns(DSL.field("id"), DSL.field("username"), DSL.field("password_hash"), DSL.field("first_run"))
-			.values(1, "", "", true)
+		dsl.insertInto(ADMIN)
+			.set(ADMIN.ID, 1)
+			.set(ADMIN.USERNAME, "")
+			.set(ADMIN.PASSWORD_HASH, "")
+			.set(ADMIN.ALREADY_RUN, true)
 			.execute();
-	}
-
-	public void updateCredentials(String username, String passwordHash)
-	{
-		dsl.update(DSL.table("admin"))
-			.set(DSL.field("username"), username)
-			.set(DSL.field("password_hash"), passwordHash)
-			.set(DSL.field("first_run"), false)
-			.where(DSL.field("id").eq(1))
-			.execute();
-	}
-
-	public AdminCredentials findCredentials()
-	{
-		return dsl.select(DSL.field("username", String.class), DSL.field("password_hash", String.class))
-			.from("admin")
-			.where(DSL.field("id").eq(1))
-			.fetchOne(record -> new AdminCredentials(
-				record.get(0, String.class),
-				record.get(1, String.class)
-			));
 	}
 }

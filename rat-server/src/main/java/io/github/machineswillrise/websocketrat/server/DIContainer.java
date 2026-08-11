@@ -4,7 +4,6 @@ import org.jooq.DSLContext;
 
 import io.github.machineswillrise.websocketrat.server.controllers.AdminController;
 import io.github.machineswillrise.websocketrat.server.repositories.AdminRepository;
-import io.github.machineswillrise.websocketrat.server.services.AdminService;
 import io.github.machineswillrise.websocketrat.server.services.Argon2Service;
 
 /*
@@ -20,7 +19,6 @@ public class DIContainer
 		var argon2Service = new Argon2Service();
 
 		var adminRepository = new AdminRepository(context);
-		var adminService = new AdminService(adminRepository, argon2Service);
-		adminController = new AdminController(adminService);
+		adminController = new AdminController(adminRepository, argon2Service);
 	}
 }

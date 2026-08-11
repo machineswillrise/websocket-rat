@@ -3,6 +3,6 @@ CREATE TABLE IF NOT EXISTS admin (
 	username VARCHAR(50),
 	password_hash VARCHAR(255),
 	updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	first_run BOOLEAN,
+	already_run BOOLEAN,
 	CONSTRAINT single_user_check CHECK (id = 1)
 );
