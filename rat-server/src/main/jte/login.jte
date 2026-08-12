@@ -7,7 +7,7 @@
 	<body>
 		<main class="container">
 			<article class="card">
-				<h3>Login</h3>
+				<h4>Login</h4>
 				<form action="/api/admin/login" method="POST">
 					<input type="text" placeholder="Username" name="username" required>
 					<input type="password" placeholder="Password" name="password" required>

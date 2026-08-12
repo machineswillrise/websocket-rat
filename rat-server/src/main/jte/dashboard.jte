@@ -7,7 +7,7 @@
 	<body>
 		<main class="container">
 			<article class="card">
-				<h3>Dashboard</h3>
+				<h4>Dashboard</h4>
 				<a href="/api/admin/logout" role="button">Log Out</a>
 			</article>
 		</main>

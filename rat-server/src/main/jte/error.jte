@@ -9,7 +9,7 @@
 	<body>
 		<main class="container">
 			<article class="card">
-				<h3>An error occurred:</h3>
+				<h4>An error occurred:</h4>
 				<p>${error}</p>
 				<a href="/" role="button">Back To Home</a>
 			</article>

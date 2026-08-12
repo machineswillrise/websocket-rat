@@ -7,7 +7,7 @@
 	<body>
 		<main class="container">
 			<article class="card">
-				<h3>Welcome! Select an option:</h3>
+				<h4>Welcome! Select an option:</h4>
 				<a href="/login" role="button">Login</a>
 				<a href="/set-creds" role="button">Set Credentials</a>
 			</article>

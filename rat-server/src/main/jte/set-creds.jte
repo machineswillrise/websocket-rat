@@ -7,7 +7,7 @@
 	<body>
 		<main class="container">
 			<article class="card">
-				<h3>Set Credentials</h3>
+				<h4>Set Credentials</h4>
 				<form action="/api/admin/set-creds" method="POST">
 					<input type="text" placeholder="Username" name="username" required>
 					<input type="password" placeholder="Password" name="password" required>

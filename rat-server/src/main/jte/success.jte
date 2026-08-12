@@ -7,7 +7,7 @@
 	<body>
 		<main class="container">
 			<article class="card">
-				<h3>Success!</h3>
+				<h4>Success!</h4>
 				<a href="/" role="button">Back To Home</a>
 			</article>
 		</main>
