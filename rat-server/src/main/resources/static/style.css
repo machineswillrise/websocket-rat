@@ -1,0 +1,22 @@
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	padding: 1rem;
+}
+
+.card {
+	width: 100%;
+	max-width: 400px;
+	margin-inline: auto;
+	padding: 2rem;
+}
+
+.card a[role="button"] {
+	display: block;
+}
+
+.card a[role="button"] + a[role="button"] {
+	margin-top: 1rem;
+}

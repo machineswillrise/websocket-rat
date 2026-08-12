@@ -6,9 +6,11 @@ import java.util.concurrent.TimeUnit;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-import io.javalin.Javalin;
+import io.javalin.http.staticfiles.Location;
 import io.javalin.http.TooManyRequestsResponse;
+import io.javalin.Javalin;
 import io.javalin.plugin.bundled.RateLimitPlugin;
+import io.javalin.rendering.template.JavalinJte;
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 import org.flywaydb.core.Flyway;
@@ -60,37 +62,55 @@ public class WebSocketRatServer
 		DIContainer container = new DIContainer(dsl);
 		var adminController = container.adminController;
 
-		// Load config
-		Config config = server.loadConfig();
+		// Load user config
+		Config userConfig = server.loadConfig();
 
-		Javalin.create(javalinConfig ->
+		Javalin.create(config ->
 		{
-			javalinConfig.registerPlugin(new RateLimitPlugin());
+			config.registerPlugin(new RateLimitPlugin());
+			config.fileRenderer(new JavalinJte());
 
-			javalinConfig.routes.before(ctx ->
-				ctx.with(RateLimitPlugin.class).requestPerTimeUnit(60, TimeUnit.MINUTES));
+			config.staticFiles.add("/static", Location.CLASSPATH);
 
-			javalinConfig.routes.exception(TooManyRequestsResponse.class, (e, ctx) ->
+			config.routes.before(ctx ->
+			{
+				ctx.with(RateLimitPlugin.class).requestPerTimeUnit(60, TimeUnit.MINUTES);
+			});
+
+			config.routes.exception(Exception.class, (e, ctx) ->
+			{
+				ctx.status(500);
+				ctx.render("error.jte");
+			});
+
+			config.routes.exception(TooManyRequestsResponse.class, (e, ctx) ->
 			{
 				ctx.status(429);
 				ctx.json(Map.of("error", "Too Many Requests", "code", "TOO_MANY_REQUESTS"));
 			});
 
-			javalinConfig.routes.exception(Exception.class, (e, ctx) ->
+			config.routes.apiBuilder(() ->
 			{
-				ctx.status(500);
-				ctx.json(Map.of("error", "Internal Server Error", "code", "INTERNAL_SERVER_ERROR"));
-			});
+				path("/",          () -> get(ctx -> ctx.render("index.jte")));
+				path("/set-creds", () -> get(ctx -> ctx.render("set-creds.jte")));
+				path("/login",     () -> get(ctx -> ctx.render("login.jte")));
+				path("/success",   () -> get(ctx -> ctx.render("success.jte")));
+				path("/dashboard", () -> get(adminController::loadDashboard));
 
-			javalinConfig.routes.apiBuilder(() ->
-			{
-				path("/admin", () ->
+				path("/api", () ->
 				{
-					path("/set-creds", () -> post(adminController::setCredentials));
-					path("/login", () -> post(adminController::login));
-					path("/logout", () -> get(ctx -> ctx.req().getSession().invalidate()));
+					path("/admin", () ->
+					{
+						path("/set-creds", () -> post(adminController::setCredentials));
+						path("/login",     () -> post(adminController::login));
+						path("/logout",    () -> get(ctx ->
+						{
+							ctx.req().getSession().invalidate();
+							ctx.redirect("/");
+						}));
+					});
 				});
 			});
-		}).start(config.port());
+		}).start(userConfig.port());
 	}
 }

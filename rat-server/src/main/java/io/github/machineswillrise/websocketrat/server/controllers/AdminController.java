@@ -1,8 +1,9 @@
 package io.github.machineswillrise.websocketrat.server.controllers;
 
+import java.util.Map;
+
 import io.javalin.http.Context;
 
-import io.github.machineswillrise.websocketrat.server.dtos.LoginResponse;
 import io.github.machineswillrise.websocketrat.server.models.Admin;
 import io.github.machineswillrise.websocketrat.server.repositories.AdminRepository;
 import io.github.machineswillrise.websocketrat.server.services.Argon2Service;
@@ -34,6 +35,13 @@ public class AdminController
 		else if (!admin.alreadyRun())
 		{
 			ctx.status(400);
+			ctx.render(
+				"error.jte",
+				Map.of(
+					"error",
+					"Credentials have already been set up."
+				)
+			);
 			return;
 		}
 
@@ -41,7 +49,7 @@ public class AdminController
 		Admin updated = new Admin(admin.id(), username, passwordHash, admin.updatedAt(), false);
 		adminRepository.update(admin, updated);
 
-		ctx.status(200);
+		ctx.redirect("/success");
 	}
 
 	public void login(Context ctx)
@@ -53,20 +61,52 @@ public class AdminController
 
 		if (admin == null || !admin.username().equals(username))
 		{
-			ctx.status(401);
-			ctx.json(new LoginResponse(false));
+			ctx.status(403);
+			ctx.render(
+				"error.jte",
+				Map.of(
+					"error",
+					"You have entered the wrong username or the administrator account has not been set up."
+				)
+			);
+
 			return;
 		}
 
 		if (!argon2Service.verify(admin.passwordHash(), password.toCharArray()))
 		{
-			ctx.status(401);
-			ctx.json(new LoginResponse(false));
+			ctx.status(403);
+			ctx.render(
+				"error.jte",
+				Map.of(
+					"error",
+					"You have entered the wrong password."
+				)
+			);
+
 			return;
 		}
 
 		ctx.sessionAttribute("admin_logged_in", true);
-		ctx.status(200);
 		ctx.redirect("/dashboard");
+	}
+
+	public void loadDashboard(Context ctx)
+	{
+		if (ctx.sessionAttribute("admin_logged_in") == null)
+		{
+			ctx.status(403);
+			ctx.render(
+				"error.jte",
+				Map.of(
+					"error",
+					"You are not authorized to view this page."
+				)
+			);
+
+			return;
+		}
+
+		ctx.render("dashboard.jte");
 	}
 }
