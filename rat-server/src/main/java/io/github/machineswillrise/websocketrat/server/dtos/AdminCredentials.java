@@ -1,4 +1,4 @@
-package io.github.machineswillrise.websocketrat.server.dto;
+package io.github.machineswillrise.websocketrat.server.dtos;
 
 public record AdminCredentials(String username, String passwordHash)
 {

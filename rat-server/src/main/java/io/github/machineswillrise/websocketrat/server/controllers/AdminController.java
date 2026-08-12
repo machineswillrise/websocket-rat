@@ -2,7 +2,7 @@ package io.github.machineswillrise.websocketrat.server.controllers;
 
 import io.javalin.http.Context;
 
-import io.github.machineswillrise.websocketrat.server.dto.LoginResponse;
+import io.github.machineswillrise.websocketrat.server.dtos.LoginResponse;
 import io.github.machineswillrise.websocketrat.server.models.Admin;
 import io.github.machineswillrise.websocketrat.server.repositories.AdminRepository;
 import io.github.machineswillrise.websocketrat.server.services.Argon2Service;
