@@ -21,9 +21,19 @@ You can also use `./mvnw clean package` which will make a GraalVM Native Image t
 ### Start server directly
 `./mvnw clean compile -pl :rat-server -am exec:java`
 
+### Updating Dependencies
+If you want to update the dependencies, you can run:
+```
+./mvnw versions:display-dependency-updates
+```
+
+If you see anything, you can run `./mvnw versions:use-latest-versions`
+
+This will NOT update dependencies with a new major release.
+
 ### Notice
 This project is NOT finished yet. Things that need to be implemented include:
-- Web UI
+- Admin interface
 - WebSocket Endpoints
 - Client features
 
