@@ -1,6 +1,7 @@
 .idea/
 .vscode/
 .mvn/
+jte-classes/
 target/
 webtransport-rat.iml
 config.properties
