@@ -16,7 +16,7 @@ This project is not intended for malicious uses. Please do not commit any illega
 
 (If you're on Windows, use `./mvnw.cmd` instead.)
 
-You can also use `./mvnw clean package` which will make a GraalVM Native Image too.
+You can also use `./mvnw clean package` which will make a GraalVM Native Image for the client.
 
 ### Start server directly
 `./mvnw clean compile -pl :rat-server -am exec:java`
@@ -27,9 +27,7 @@ If you want to update the dependencies, you can run:
 ./mvnw versions:display-dependency-updates
 ```
 
-If you see anything, you can run `./mvnw versions:use-latest-versions`
-
-This will NOT update dependencies with a new major release.
+If you see anything, you can run `./mvnw versions:use-latest-versions`. This will NOT update dependencies with a new major release.
 
 ### Notice
 This project is NOT finished yet. Things that need to be implemented include:
