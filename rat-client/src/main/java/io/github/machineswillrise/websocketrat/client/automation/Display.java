@@ -24,24 +24,27 @@ public record Display(GraphicsDevice device, Rectangle bounds, Robot robot, bool
 		}
 	}
 
-	public void clickMouse(boolean leftClick)
+	public void clickMouse(MouseButton button)
 	{
-		if (leftClick)
+		switch (button)
 		{
-			robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-		}
-		else
-		{
-			robot.mousePress(InputEvent.BUTTON3_DOWN_MASK);
-		}
+			case LEFT ->
+			{
+				robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+				robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+			}
 
-		if (leftClick)
-		{
-			robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-		}
-		else
-		{
-			robot.mouseRelease(InputEvent.BUTTON3_DOWN_MASK);
+			case MIDDLE ->
+			{
+				robot.mousePress(InputEvent.BUTTON2_DOWN_MASK);
+				robot.mouseRelease(InputEvent.BUTTON2_DOWN_MASK);
+			}
+
+			case RIGHT ->
+			{
+				robot.mousePress(InputEvent.BUTTON3_DOWN_MASK);
+				robot.mouseRelease(InputEvent.BUTTON3_DOWN_MASK);
+			}
 		}
 	}
 
