@@ -1,19 +1,29 @@
 package io.github.machineswillrise.websocketrat.client.automation;
 
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+
 import java.awt.GraphicsDevice;
+import java.awt.image.BufferedImage;
+
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Robot;
 
-import java.awt.event.InputEvent;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
-import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 
 public record Display(GraphicsDevice device, Rectangle bounds, Robot robot, boolean isMaster)
 {
-	public BufferedImage capture()
+	public byte[] capture() throws IOException
 	{
-		return robot.createScreenCapture(bounds);
+		BufferedImage screenshot = robot.createScreenCapture(bounds);
+		var baos = new ByteArrayOutputStream();
+
+		ImageIO.write(screenshot, "png", baos);
+		return baos.toByteArray();
 	}
 
 	public void moveMouse(int x, int y)
@@ -51,5 +61,31 @@ public record Display(GraphicsDevice device, Rectangle bounds, Robot robot, bool
 	public void scrollMouse(int notches)
 	{
 		robot.mouseWheel(notches);
+	}
+
+	public void type(char c)
+	{
+		int keyCode = KeyEvent.getExtendedKeyCodeForChar(c);
+		boolean isUpperCase = Character.isUpperCase(c);
+
+		if (keyCode == KeyEvent.VK_UNDEFINED)
+		{
+			throw new IllegalArgumentException("Unknown key code for key " + c);
+		}
+
+		if (isUpperCase)
+		{
+			robot.keyPress(KeyEvent.VK_SHIFT);
+		}
+
+		robot.keyPress(keyCode);
+		robot.keyRelease(keyCode);
+
+		if (isUpperCase)
+		{
+			robot.keyRelease(KeyEvent.VK_SHIFT);
+		}
+
+		robot.delay(50);
 	}
 }
