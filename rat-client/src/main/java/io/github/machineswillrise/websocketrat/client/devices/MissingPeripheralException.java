@@ -1,14 +1,16 @@
 package io.github.machineswillrise.websocketrat.client.devices;
 
-public class MissingPeripheralException extends Exception
+import io.github.machineswillrise.websocketrat.client.RatException;
+
+public class MissingPeripheralException extends RatException
 {
-	public MissingPeripheralException(String message)
+	public MissingPeripheralException(String peripheral)
 	{
-		super(message);
+		super("A peripheral was missing: " + peripheral);
 	}
 
-	public MissingPeripheralException(String message, Throwable cause)
+	public MissingPeripheralException(String peripheral, Throwable cause)
 	{
-		super(message, cause);
+		super("A peripheral was missing: " + peripheral, cause);
 	}
 }

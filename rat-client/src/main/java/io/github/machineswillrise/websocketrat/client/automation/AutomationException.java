@@ -1,6 +1,8 @@
 package io.github.machineswillrise.websocketrat.client.automation;
 
-public class AutomationException extends Exception
+import io.github.machineswillrise.websocketrat.client.RatException;
+
+public class AutomationException extends RatException
 {
 	public AutomationException(String message)
 	{
