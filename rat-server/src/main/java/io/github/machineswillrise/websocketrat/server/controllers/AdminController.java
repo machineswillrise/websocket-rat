@@ -35,13 +35,7 @@ public class AdminController
 		else if (!admin.alreadyRun())
 		{
 			ctx.status(400);
-			ctx.render(
-				"error.jte",
-				Map.of(
-					"error",
-					"Credentials have already been set up."
-				)
-			);
+			ctx.render("error.jte", Map.of("error", "Credentials have already been set up."));
 			return;
 		}
 
@@ -62,13 +56,8 @@ public class AdminController
 		if (admin == null || !admin.username().equals(username))
 		{
 			ctx.status(403);
-			ctx.render(
-				"error.jte",
-				Map.of(
-					"error",
-					"You have entered the wrong username or the administrator account has not been set up."
-				)
-			);
+			ctx.render("error.jte", Map.of("error",
+				"You have entered the wrong username or the administrator account has not been set up."));
 
 			return;
 		}
@@ -76,13 +65,7 @@ public class AdminController
 		if (!argon2Service.verify(admin.passwordHash(), password.toCharArray()))
 		{
 			ctx.status(403);
-			ctx.render(
-				"error.jte",
-				Map.of(
-					"error",
-					"You have entered the wrong password."
-				)
-			);
+			ctx.render("error.jte", Map.of("error", "You have entered the wrong password."));
 
 			return;
 		}
@@ -96,13 +79,7 @@ public class AdminController
 		if (ctx.sessionAttribute("admin_logged_in") == null)
 		{
 			ctx.status(403);
-			ctx.render(
-				"error.jte",
-				Map.of(
-					"error",
-					"You are not authorized to view this page."
-				)
-			);
+			ctx.render("error.jte", Map.of("error", "You are not authorized to view this page."));
 
 			return;
 		}

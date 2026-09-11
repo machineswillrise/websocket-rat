@@ -91,10 +91,10 @@ public class WebSocketRatServer
 
 			config.routes.apiBuilder(() ->
 			{
-				path("/",          () -> get(ctx -> ctx.render("index.jte")));
+				path("/", () -> get(ctx -> ctx.render("index.jte")));
 				path("/set-creds", () -> get(ctx -> ctx.render("set-creds.jte")));
-				path("/login",     () -> get(ctx -> ctx.render("login.jte")));
-				path("/success",   () -> get(ctx -> ctx.render("success.jte")));
+				path("/login", () -> get(ctx -> ctx.render("login.jte")));
+				path("/success", () -> get(ctx -> ctx.render("success.jte")));
 				path("/dashboard", () -> get(adminController::loadDashboard));
 
 				path("/api", () ->
@@ -102,8 +102,8 @@ public class WebSocketRatServer
 					path("/admin", () ->
 					{
 						path("/set-creds", () -> post(adminController::setCredentials));
-						path("/login",     () -> post(adminController::login));
-						path("/logout",    () -> get(ctx ->
+						path("/login", () -> post(adminController::login));
+						path("/logout", () -> get(ctx ->
 						{
 							ctx.req().getSession().invalidate();
 							ctx.redirect("/");

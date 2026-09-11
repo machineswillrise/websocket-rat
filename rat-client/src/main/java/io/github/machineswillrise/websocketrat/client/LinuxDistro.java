@@ -32,7 +32,7 @@ public enum LinuxDistro
 	ROCKY_LINUX("Rocky Linux", "rhel"),
 	SECUREBLUE("SecureBlue", "secureblue"),
 	TAILS("Tails", "tails"),
-	TRISQUEL("Trisquel","trisquel"),
+	TRISQUEL("Trisquel", "trisquel"),
 	UBUNTU("Ubuntu", "ubuntu"),
 	VOID("Void", "void"),
 	UNKNOWN("Unknown", "unknown");

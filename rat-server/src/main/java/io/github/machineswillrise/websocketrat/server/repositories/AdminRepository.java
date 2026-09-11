@@ -30,8 +30,7 @@ public class AdminRepository implements Repository<Admin>
 			record.getUsername(),
 			record.getPasswordHash(),
 			record.getUpdatedAt(),
-			record.getAlreadyRun()
-		));
+			record.getAlreadyRun()));
 	}
 
 	public Admin readFirst()

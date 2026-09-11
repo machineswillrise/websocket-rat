@@ -5,6 +5,6 @@ public record ShellExecution(
 	boolean done,
 	int exitCode,
 	String stdout,
-	String stderr
-) {}
-
+	String stderr)
+{
+}

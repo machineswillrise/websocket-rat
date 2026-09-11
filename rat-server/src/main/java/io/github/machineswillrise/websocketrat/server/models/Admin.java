@@ -7,7 +7,6 @@ public record Admin(
 	String username,
 	String passwordHash,
 	LocalDateTime updatedAt,
-	boolean alreadyRun
-)
+	boolean alreadyRun)
 {
 }
