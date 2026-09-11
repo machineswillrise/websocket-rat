@@ -2,11 +2,9 @@ package io.github.machineswillrise.websocketrat.client;
 
 public enum OperatingSystem
 {
-	WINDOWS_10("Windows 10"),
-	WINDOWS_11("Windows 11"),
+	WINDOWS_10("Windows 10"), WINDOWS_11("Windows 11"),
 
-	GNU_LINUX("GNU/Linux"),
-	MAC_OS("MacOS"),
+	LINUX("GNU/Linux"), MAC_OS("MacOS"),
 
 	UNKNOWN("Unknown");
 
@@ -26,14 +24,13 @@ public enum OperatingSystem
 	{
 		String operatingSystem = System.getProperty("os.name").toLowerCase();
 
-		// JAVA 21 can't run on Windows versions older than 10
+		// Java 21 can't run on Windows versions older than 10
 		if (operatingSystem.contains("win"))
 		{
 			if (operatingSystem.contains("11"))
 			{
 				return WINDOWS_11;
-			}
-			else
+			} else
 			{
 				return WINDOWS_10;
 			}
@@ -41,7 +38,7 @@ public enum OperatingSystem
 
 		if (operatingSystem.contains("linux"))
 		{
-			return GNU_LINUX;
+			return LINUX;
 		}
 
 		if (operatingSystem.contains("mac"))

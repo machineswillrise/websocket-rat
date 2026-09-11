@@ -40,7 +40,6 @@ This project is NOT finished yet. Things that need to be implemented include:
 - Automatically copying the private and public keys into the server's resources
 - Automatically copying the public key into the client's resources
 - Setting up the Javalin SSL plugin
-- ProGuard obfuscation and packing
 - Systemd auto restart in container
 - NTFY Logback appender in server container for severe errors
 

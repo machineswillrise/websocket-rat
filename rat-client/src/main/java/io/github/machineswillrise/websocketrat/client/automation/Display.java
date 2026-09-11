@@ -38,20 +38,17 @@ public record Display(GraphicsDevice device, Rectangle bounds, Robot robot, bool
 	{
 		switch (button)
 		{
-			case LEFT ->
-			{
+			case LEFT -> {
 				robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
 				robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
 			}
 
-			case MIDDLE ->
-			{
+			case MIDDLE -> {
 				robot.mousePress(InputEvent.BUTTON2_DOWN_MASK);
 				robot.mouseRelease(InputEvent.BUTTON2_DOWN_MASK);
 			}
 
-			case RIGHT ->
-			{
+			case RIGHT -> {
 				robot.mousePress(InputEvent.BUTTON3_DOWN_MASK);
 				robot.mouseRelease(InputEvent.BUTTON3_DOWN_MASK);
 			}

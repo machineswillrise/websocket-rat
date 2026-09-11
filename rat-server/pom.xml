@@ -11,6 +11,8 @@
 
 	<properties>
 		<rat-server.mainClass>io.github.machineswillrise.websocketrat.server.WebSocketRatServer</rat-server.mainClass>
+		<jte.version>7.2.3</jte.version>
+		<jte.plugin.version>3.2.4</jte.plugin.version>
 		<flyway.version>13.2.0</flyway.version>
 	</properties>
 
@@ -18,25 +20,25 @@
 		<dependency>
 			<groupId>io.javalin</groupId>
 			<artifactId>javalin-bundle</artifactId>
-			<version>7.2.3</version>
+			<version>${jte.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>io.javalin</groupId>
 			<artifactId>javalin-rendering-jte</artifactId>
-			<version>7.2.3</version>
+			<version>${jte.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.53.2.1</version>
+			<version>3.53.4.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.21.7</version>
+			<version>3.21.8</version>
 		</dependency>
 
 		<dependency>
@@ -199,7 +201,7 @@
 			<plugin>
 				<groupId>gg.jte</groupId>
 				<artifactId>jte-maven-plugin</artifactId>
-				<version>3.2.4</version>
+				<version>${jte.plugin.version}</version>
 				<configuration>
 					<sourceDirectory>${project.basedir}/src/main/jte</sourceDirectory>
 					<targetDirectory>${project.build.directory}/generated-sources/jte</targetDirectory>
@@ -223,7 +225,7 @@
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
+
 					<configuration>
 						<lifecycleMappingMetadata>
 							<pluginExecutions>
@@ -231,7 +233,7 @@
 									<pluginExecutionFilter>
 										<groupId>gg.jte</groupId>
 										<artifactId>jte-maven-plugin</artifactId>
-										<versionRange>[3.2.4,)</versionRange>
+										<versionRange>[${jte.plugin.version},)</versionRange>
 										<goals>
 											<goal>precompile</goal>
 										</goals>
@@ -250,7 +252,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore />
+										<ignore/>
 									</action>
 								</pluginExecution>
 							</pluginExecutions>

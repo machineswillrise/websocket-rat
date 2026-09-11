@@ -13,11 +13,10 @@ public class ConfigParserTest
 	@DisplayName("Should return same data when parsing valid configuration")
 	void givenValidConfiguration_whenParse_thenReturnSameData()
 	{
-		String config =
-		"""
-		ip = 9.9.9.9
-		port = 1234
-		""";
+		String config = """
+				ip = 9.9.9.9
+				port = 1234
+				""";
 
 		Config expectedResult = new Config("9.9.9.9", 1234);
 

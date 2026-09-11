@@ -6,7 +6,9 @@ public class WebSocketRatClient
 {
 	public static void main(String[] args)
 	{
-		if (OperatingSystem.detectCurrentOperatingSystem() == OperatingSystem.MAC_OS)
+		OperatingSystem os = OperatingSystem.detectCurrentOperatingSystem();
+
+		if (os == OperatingSystem.MAC_OS)
 		{
 			boolean screenCaptureAllowed = CoreGraphicsLibrary.INSTANCE.CGPreflightScreenCaptureAccess();
 

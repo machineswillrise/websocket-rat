@@ -24,9 +24,6 @@ public class ConfigParser
 
 	public Config parse()
 	{
-		return new Config(
-			props.getProperty("ip"),
-			Integer.parseInt(props.getProperty("port"))
-		);
+		return new Config(props.getProperty("ip"), Integer.parseInt(props.getProperty("port")));
 	}
 }
