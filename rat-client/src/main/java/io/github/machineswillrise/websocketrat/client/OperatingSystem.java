@@ -2,10 +2,10 @@ package io.github.machineswillrise.websocketrat.client;
 
 public enum OperatingSystem
 {
-	WINDOWS_10("Windows 10"), WINDOWS_11("Windows 11"),
-
-	LINUX("GNU/Linux"), MAC_OS("MacOS"),
-
+	WINDOWS_10("Windows 10"),
+	WINDOWS_11("Windows 11"),
+	LINUX("GNU/Linux"),
+	MAC_OS("MacOS"),
 	UNKNOWN("Unknown");
 
 	private final String displayName;
@@ -30,7 +30,8 @@ public enum OperatingSystem
 			if (operatingSystem.contains("11"))
 			{
 				return WINDOWS_11;
-			} else
+			}
+			else
 			{
 				return WINDOWS_10;
 			}
