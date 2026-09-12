@@ -29,12 +29,13 @@ public class DisplayManager
 			{
 				if (device.equals(master))
 				{
-					display = new Display(device, device.getDefaultConfiguration().getBounds(), new Robot(device),
-							true);
-				} else
+					display = new Display(device, device.getDefaultConfiguration().getBounds(),
+						new Robot(device), true);
+				}
+				else
 				{
-					display = new Display(device, device.getDefaultConfiguration().getBounds(), new Robot(device),
-							false);
+					display = new Display(device, device.getDefaultConfiguration().getBounds(),
+						new Robot(device),false);
 				}
 
 				displays.add(display);
