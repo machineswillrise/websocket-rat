@@ -20,7 +20,7 @@ public interface Device
 	void stopCryptomining();
 
 	void startDOS(InetAddress address);
-	void stopDOS(InetAddress address);
+	void stopDOS();
 
 	int getCPUUsage();
 	int getRAMUsage();
